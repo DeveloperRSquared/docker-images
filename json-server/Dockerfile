@@ -7,4 +7,4 @@ WORKDIR /app
 COPY . .
 EXPOSE 8000
 
-ENTRYPOINT ["sh", "run.sh"]
+ENTRYPOINT ["bash", "run.sh"]
