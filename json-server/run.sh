@@ -3,14 +3,25 @@ set -euo pipefail
 
 args="$@ --port 8000 --host 0.0.0.0"
 
-file=/app/data/db.json
-if [ -f $file ]; then
-    args="$args $file"
+volume_path=/app/data
+
+db_file=${volume_path}/db.json
+if [ -f ${db_file} ]; then
+    args="${args} ${db_file}"
 fi
 
-file=/app/data/routes.json
-if [ -f $file ]; then
-    args="$args --routes $file"
+routes_file=${volume_path}/routes.json
+if [ -f ${routes_file} ]; then
+    args="${args} --routes ${routes_file}"
 fi
 
-json-server $args
+middlewares_directory=${volume_path}/middlewares
+if [ -d "${middlewaresDirectory}" ]; then
+    middlewares=""
+    for middleware in $( ls ${middlewaresDirectory}/*.js ); do
+        middlewares+="${middleware} "
+    done
+    args="${args} --middlewares ${middlewares}"
+fi
+
+json-server ${args}
