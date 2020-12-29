@@ -16,9 +16,9 @@ if [ -f ${routes_file} ]; then
 fi
 
 middlewares_directory=${volume_path}/middlewares
-if [ -d "${middlewaresDirectory}" ]; then
+if [ -d "${middlewares_directory}" ]; then
     middlewares=""
-    for middleware in $( ls ${middlewaresDirectory}/*.js ); do
+    for middleware in $( ls ${middlewares_directory}/*.js ); do
         middlewares+="${middleware} "
     done
     args="${args} --middlewares ${middlewares}"
