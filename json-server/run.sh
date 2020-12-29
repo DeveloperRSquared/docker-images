@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -e -u -o pipefail
 
 args="$@ --port 8000 --host 0.0.0.0"
 
