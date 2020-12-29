@@ -1,0 +1,19 @@
+name: Build
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build-dir: [ 'json-server' ]
+    defaults:
+      run:
+        working-directory: ${{ matrix.build-dir }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Build docker image
+        run: docker build .
