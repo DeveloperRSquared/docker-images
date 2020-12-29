@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/bash
+set -euo pipefail
+
 args="$@ --port 8000 --host 0.0.0.0"
 
 file=/app/data/db.json

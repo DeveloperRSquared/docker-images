@@ -1,6 +1,7 @@
 name: Deploy
 on:
-  push:
+  pull_request:
+  # push:
     branches: [ main ]
 jobs:
   deploy:
@@ -18,10 +19,14 @@ jobs:
       - name: Authenticate against registry
         run: |
           echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
-      - name: Build and push image
+      - name: debug
         run: |
-          IMAGE_ID=${{ github.repository }}/${{ matrix.build-dir }}
-          IMAGE_TAG=$(echo ${{ github.sha }} | cut -c1-7)
-          docker build --tag $IMAGE_ID:$IMAGE_TAG --tag $IMAGE_ID:latest .
-          docker push $IMAGE_ID:$IMAGE_TAG
-          docker push $IMAGE_ID:latest
+          echo ${{ github.repository }}
+          echo ${{ github.repository }}/${{ matrix.build-dir }}
+      # - name: Build and push image
+      #   run: |
+      #     IMAGE_ID=${{ github.repository }}/${{ matrix.build-dir }}
+      #     IMAGE_TAG=$(echo ${{ github.sha }} | cut -c1-7)
+      #     docker build --tag $IMAGE_ID:$IMAGE_TAG --tag $IMAGE_ID:latest .
+      #     docker push $IMAGE_ID:$IMAGE_TAG
+      #     docker push $IMAGE_ID:latest
