@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        build-dir: [ 'json-server' ]
+        build-dir: [ 'json-server', 'json-server-node' ]
     defaults:
       run:
         working-directory: ${{ matrix.build-dir }}
