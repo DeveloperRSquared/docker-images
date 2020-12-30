@@ -4,16 +4,15 @@ on:
     branches: [ main ]
 jobs:
   build:
-    name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        build-dir: [ 'json-server' ]
+        build-dir: [ 'json-server', 'json-server-node' ]
     defaults:
       run:
         working-directory: ${{ matrix.build-dir }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Build docker image
+      - name: Build docker image (${{ matrix.build-dir }})
         run: docker build .

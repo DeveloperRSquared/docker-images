@@ -4,11 +4,10 @@ on:
     branches: [ main ]
 jobs:
   deploy:
-    name: Deploy
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        build-dir: [ 'json-server' ]
+        build-dir: [ 'json-server', 'json-server-node' ]
     defaults:
       run:
         working-directory: ${{ matrix.build-dir }}
@@ -20,7 +19,7 @@ jobs:
       - name: Authenticate against registry
         run: |
           echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
-      - name: Build and push image
+      - name: Build and push image (${{ matrix.build-dir }})
         run: |
           IMAGE_ID=${{ env.DOCKER_USERNAME }}/${{ matrix.build-dir }}
           IMAGE_TAG=$(echo ${{ github.sha }} | cut -c1-7)
