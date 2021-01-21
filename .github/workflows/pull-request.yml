@@ -8,11 +8,20 @@ jobs:
     strategy:
       matrix:
         build-dir: [ 'json-server', 'json-server-node' ]
+      fail-fast: false
     defaults:
       run:
         working-directory: ${{ matrix.build-dir }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Build docker image (${{ matrix.build-dir }})
-        run: docker build .
+      - name: Check Docker container (${{ matrix.build-dir }})
+        run: |
+          if [[ -f docker-compose.test.yml ]]; then
+            EXIT_CODE=0
+            docker-compose --file docker-compose.test.yml up --exit-code-from='sut' --build sut || EXIT_CODE=$?
+            docker-compose --file docker-compose.test.yml logs --tail="all"
+            exit ${EXIT_CODE}
+          else
+            docker build .
+          fi

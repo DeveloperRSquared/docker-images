@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  json-server-node:
+    container_name: json-server-node
+    image: json-server-node
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    healthcheck:
+      test: [ "CMD-SHELL", "curl http://localhost:8000/" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    tty: true
+    stdin_open: true
+
+  sut:
+    image: appropriate/curl
+    depends_on:
+      - json-server-node
+    command: --retry-delay 10 --retry 6 --retry-connrefused http://json-server-node:8000/

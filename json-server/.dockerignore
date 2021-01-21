@@ -2,7 +2,5 @@
 *
 
 # Except ...
-!package.json
-!package-lock.json
+!data
 !run.sh
-!data/**
